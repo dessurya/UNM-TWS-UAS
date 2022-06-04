@@ -90,7 +90,7 @@ class InboxController extends Controller
         return response()->json([
             'res' => true,
             'message' => 'success',
-            'data' => $store,
+            'data' => Inbox::find($id),
         ]);
     }
 
