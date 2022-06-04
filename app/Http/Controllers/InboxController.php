@@ -40,7 +40,7 @@ class InboxController extends Controller
         
         if (count($condition) > 0) {
             $list = Inbox::select('*');
-            foreach ($condition as $key => $value) { $list->whereLike($key,$value); }
+            foreach ($condition as $key => $value) { $list->whereLike($key, 'LIKE',$value); }
             $list = $list->get();
         }else{
             $list = Inbox::get();
