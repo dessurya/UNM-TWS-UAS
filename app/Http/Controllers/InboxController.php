@@ -85,7 +85,7 @@ class InboxController extends Controller
         $input['subjeck'] = $httpRequest->subjeck;
         $input['message'] = $httpRequest->message;
 
-        $store = Inbox::where('id',$id)->update($input)->get();
+        $store = Inbox::where('id',$id)->update($input);
 
         return response()->json([
             'res' => true,
