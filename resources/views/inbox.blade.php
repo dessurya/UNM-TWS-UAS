@@ -20,7 +20,7 @@
             <div class="card-header">Manajement Pesan</div>
             <div class="card-body">
                 <div id="inboxForm">
-                    <form id="inboxFormData" class="mb-5" onsubmit="submitForm('#inboxFormData')">
+                    <form id="inboxFormData" class="mb-5" onsubmit="return submitForm('#inboxFormData')">
                         <div class="card">
                             <div class="card-header">Form Data</div>
                             <div class="card-body">
@@ -141,7 +141,6 @@
                 alert(res.message)
                 inboxOpen(res.id)
             })
-
             return false
         }
 
