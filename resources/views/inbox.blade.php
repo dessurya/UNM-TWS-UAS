@@ -129,7 +129,7 @@
             let type = 'store'
             if (input['old_id'] != null && input['old_id'] != '') { type = 'update' }
             let method = configPage['endpoint'][type]['method']
-            let endpoint = configPage['endpoint']['store']['url']
+            let endpoint = configPage['endpoint'][type]['url']
             if (type == 'update') { endpoint = endpoint+input['old_id'] }
             console.log({endpoint,method,input})
         }
