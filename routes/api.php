@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/inbox', 'InboxController@list')->name('inbox-list');
 Route::post('/inbox/store', 'InboxController@create')->name('inbox-store');
-Route::put('/inbox/store/{id}', 'InboxController@update')->name('inbox-update');
-Route::get('/inbox/{id}', 'InboxController@find')->name('inbox-open');
-Route::delete('/inbox/{id}', 'InboxController@delete')->name('inbox-delete');
+Route::put('/inbox/store', 'InboxController@update')->name('inbox-update');
+Route::get('/inbox/open', 'InboxController@find')->name('inbox-open');
+Route::delete('/inbox', 'InboxController@delete')->name('inbox-delete');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

@@ -56,7 +56,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form id="inboxFormFilter" onsubmit="return getListData('#inboxList')">
+                            <form id="inboxFormFilter" onsubmit="return getListData('#inboxList', true)">
                                 <div class="container">
                                     <div class="row row-cols-3">
                                         @foreach($config['table'] as $idx => $row)
@@ -70,11 +70,11 @@
                                     </div>
                                 </div>
                             </form>
-                            <label>
-                                Show <select name="show" id="show" onchange="return getListData('#inboxList')"><option value="10">10</option><option value="25">25</option><option value="50">50</option></select> entries || Order By 
-                                <select name="orderBy" id="orderBy" onchange="return getListData('#inboxList')">@foreach($config['table'] as $idx => $row) @if($row['order'] == true)<option value="{{ $row['field'] }}">{{ $row['label'] }}</option>@endif @endforeach</select> : 
-                                <select name="orderByValue" id="orderByValue" onchange="return getListData('#inboxList')"><option value="DESC">DESC</option><option value="ASC">ASC</option></select> || Halaman : 
-                                <input type="number" min="1" max="1" id="page" name="page" value="1"> dari <strong></strong>
+                            <label id="inboxListPanel">
+                                Show <select name="show" id="show" onchange="return getListData('#inboxList', true)"><option value="10">10</option><option value="25">25</option><option value="50">50</option></select> entries || Order By 
+                                <select name="orderBy" id="orderBy" onchange="return getListData('#inboxList', true)">@foreach($config['table'] as $idx => $row) @if($row['order'] == true)<option value="{{ $row['field'] }}">{{ $row['label'] }}</option>@endif @endforeach</select> : 
+                                <select name="orderByValue" id="orderByValue" onchange="return getListData('#inboxList', true)"><option value="DESC">DESC</option><option value="ASC">ASC</option></select> || Halaman : 
+                                <input type="number" min="1" max="1" id="page" name="page" value="1"  onchange="return getListData('#inboxList', false)"> dari <strong></strong>
                             </label>
                             <table class="table table-striped table-hover">
                                 <thead>
@@ -116,7 +116,7 @@
         $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
         $( document ).ready(function() {
             $('#inboxFormData').hide()
-            getListData('#inboxList')
+            getListData('#inboxList', true)
         });
 
         inboxAdd = () => {
@@ -141,23 +141,62 @@
             return false
         }
 
-        getListData = (elem) => {
+        inboxDelete = (id) => {
+            let endpoint = configPage.endpoint.delete.url
+            let method = configPage.endpoint.delete.method
+            httpRequest(endpoint,method,{id}).then(function(res){
+                alert(res.message)
+                getListData('#inboxList', true)
+            })
+        }
+
+        inboxOpen = (id) => {
+            let endpoint = configPage.endpoint.open.url
+            let method = configPage.endpoint.open.method
+            httpRequest(endpoint,method,{id}).then(function(res){
+                console.log(res)
+            })
+        }
+
+        getListData = (elem, firstPage) => {
             let endpoint = configPage.endpoint.list.url
             let method = configPage.endpoint.list.method
             let condition = {}
-            condition['created_at'] = $(elem+' [name=filter_created_at]').val()
-            condition['name'] = $(elem+' [name=filter_name]').val()
-            condition['email'] = $(elem+' [name=filter_email]').val()
-            condition['subject'] = $(elem+' [name=filter_subject]').val()
-            condition['phone'] = $(elem+' [name=filter_phone]').val()
-            condition['show'] = $(elem+' [name=show]').val()
-            condition['orderBy'] = $(elem+' [name=orderBy]').val()
-            condition['orderByValue'] = $(elem+' [name=orderByValue]').val()
-            condition['page'] = $(elem+' [name=page]').val()
+                condition['created_at'] = $(elem+' [name=filter_created_at]').val()
+                condition['name'] = $(elem+' [name=filter_name]').val()
+                condition['email'] = $(elem+' [name=filter_email]').val()
+                condition['subject'] = $(elem+' [name=filter_subject]').val()
+                condition['phone'] = $(elem+' [name=filter_phone]').val()
+                condition['show'] = $(elem+' [name=show]').val()
+                condition['orderBy'] = $(elem+' [name=orderBy]').val()
+                condition['orderByValue'] = $(elem+' [name=orderByValue]').val()
+                condition['page'] = 1
+            if (firstPage == false) { condition['page'] = $(elem+' [name=page]').val() }
 
             console.log({endpoint,method,condition})
             httpRequest(endpoint,method,condition).then(function(res){
-                console.log(res)
+                const datas = res.datas
+                $(elem+' [name=page]').val(datas.current_page)
+                $(elem+' [name=page]').attr('max',datas.last_page)
+                $(elem+' #inboxListPanel strong').html(datas.last_page)
+                $(elem+' table tbody').html('')
+                
+                if (datas.data.length == 0) {
+                    $(elem+' table tbody').html('<tr><td colspan="'+configPage.table.length+'" class="text-center">---Not Found Data---</td></tr>')
+                }else{
+                    $.each(datas.data, function(idx, row){
+                        let row_table = '<tr>'
+                        $.each(configPage.table, function(tIdx, tRow){
+                            if (tRow.field == 'tools') {
+                                row_table .= '<div class="btn-group" role="group" aria-label="tools">'
+                                row_table .= '<button onclick="inboxOpen('+row.id+')" type="button" class="btn-sm btn btn-outline-danger">Left</button>'
+                                row_table .= '<button onclick="inboxDelete('+row.id+')" type="button" class="btn-sm btn btn-outline-primary">Middle</button>'
+                                row_table .= '</div>'
+                            }else{ row_table .= '<td>'+row[tRow.field]+'</td>' }
+                        })
+                        row_table .= '</tr>'
+                    })
+                }
             })
             return false
         }

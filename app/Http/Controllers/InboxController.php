@@ -43,9 +43,9 @@ class InboxController extends Controller
             'endpoint' => [
                 'list' => ['url'=>route('inbox-list'), 'method' => 'GET'],
                 'store' => ['url'=>route('inbox-store'), 'method' => 'POST'],
-                'update' => ['url'=>route('inbox-update',1), 'method' => 'PUT'],
-                'open' => ['url'=>route('inbox-open',1), 'method' => 'GET'],
-                'delete' => ['url'=>route('inbox-delete',1), 'method' => 'DELETE'],
+                'update' => ['url'=>route('inbox-update'), 'method' => 'PUT'],
+                'open' => ['url'=>route('inbox-open'), 'method' => 'GET'],
+                'delete' => ['url'=>route('inbox-delete'), 'method' => 'DELETE'],
             ]
         ];
         
@@ -108,8 +108,11 @@ class InboxController extends Controller
         ]);
     }
 
-    public function update(Request $httpRequest, $id)
+    public function update(Request $httpRequest)
     {
+        if (!isset($httpRequest->id) or empty($httpRequest->id)) {
+            return response()->json(['res' => false, 'msg' => 'not found id']);
+        }
         $cek = $this->validator($httpRequest->input());
         if ($cek != true) { return response()->json($cek); }
 
@@ -120,7 +123,7 @@ class InboxController extends Controller
         $input['subjeck'] = $httpRequest->subjeck;
         $input['message'] = $httpRequest->message;
 
-        $store = Inbox::where('id',$id)->update($input);
+        $store = Inbox::where('id',$httpRequest->id)->update($input);
 
         return response()->json([
             'res' => true,
@@ -129,18 +132,21 @@ class InboxController extends Controller
         ]);
     }
 
-    public function delete($id)
+    public function delete(Request $httpRequest)
     {
-        Inbox::where('id',$id)->delete();
+        if (!isset($httpRequest->id) or empty($httpRequest->id)) {
+            return response()->json(['res' => false, 'msg' => 'not found id']);
+        }
+        Inbox::where('id',$httpRequest->id)->delete();
         return response()->json([
             'res' => true,
             'message' => 'success',
         ]);
     }
 
-    public function find($id)
+    public function find(Request $httpRequest)
     {
-        $data = Inbox::where('id',$id)->get();
+        $data = Inbox::where('id',$httpRequest->id)->get();
         if (count($data) > 0) {
             return response()->json([
                 'res' => true,
