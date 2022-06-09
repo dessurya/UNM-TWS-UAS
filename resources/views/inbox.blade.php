@@ -9,7 +9,7 @@
     <title>PESAN</title>
     <style>
         body{
-            padding: 10rem 0;
+            padding: 4rem 0 10rem;
         }
     </style>
 </head>
