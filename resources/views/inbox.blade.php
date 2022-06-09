@@ -136,8 +136,12 @@
             if (input['old_id'] != null && input['old_id'] != '') { type = 'update' }
             let method = configPage['endpoint'][type]['method']
             let endpoint = configPage['endpoint'][type]['url']
-            if (type == 'update') { endpoint = endpoint+input['old_id'] }
-            console.log({endpoint,method,input})
+
+            httpRequest(endpoint,method,input).then(function(res){
+                alert(res.message)
+                inboxOpen(res.id)
+            })
+
             return false
         }
 
@@ -154,7 +158,14 @@
             let endpoint = configPage.endpoint.open.url
             let method = configPage.endpoint.open.method
             httpRequest(endpoint,method,{id}).then(function(res){
-                console.log(res)
+                inboxAdd()
+                let elem = '#inboxFormData'
+                $(elem+' [name=name]').val(res.data.name)
+                $(elem+' [name=email]').val(res.data.email)
+                $(elem+' [name=subject]').val(res.data.subject)
+                $(elem+' [name=phone]').val(res.data.phone)
+                $(elem+' [name=message]').val(res.data.message)
+                $(elem+' [name=old_id]').val(res.data.id)
             })
         }
 
@@ -173,7 +184,6 @@
                 condition['page'] = 1
             if (firstPage == false) { condition['page'] = $(elem+' [name=page]').val() }
 
-            console.log({endpoint,method,condition})
             httpRequest(endpoint,method,condition).then(function(res){
                 const datas = res.datas
                 $(elem+' [name=page]').val(datas.current_page)

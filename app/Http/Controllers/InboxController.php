@@ -105,6 +105,7 @@ class InboxController extends Controller
             'res' => true,
             'message' => 'success',
             'data' => $store,
+            'id' => $store->id,
         ]);
     }
 
@@ -129,6 +130,7 @@ class InboxController extends Controller
             'res' => true,
             'message' => 'success',
             'data' => Inbox::find($id),
+            'id' => $id,
         ]);
     }
 
