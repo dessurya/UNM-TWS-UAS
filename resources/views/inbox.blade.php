@@ -116,6 +116,7 @@
         $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
         $( document ).ready(function() {
             $('#inboxFormData').hide()
+            getListData('#inboxList')
         });
 
         inboxAdd = () => {
@@ -158,6 +159,7 @@
             httpRequest(endpoint,method,condition).then(function(res){
                 console.log(res)
             })
+            return false
         }
     </script>
 </body>
