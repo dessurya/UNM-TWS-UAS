@@ -11,9 +11,6 @@
         body{
             padding: 10rem 0;
         }
-        #inboxForm{
-            display:none;
-        }
     </style>
 </head>
 <body>
@@ -23,7 +20,7 @@
             <div class="card-header">Manajement Pesan</div>
             <div class="card-body">
                 <div id="inboxForm">
-                    <form id="inboxFormData" onsubmit="submitForm('#inboxFormData')">
+                    <form id="inboxFormData" class="mb-5" onsubmit="submitForm('#inboxFormData')">
                         <div class="card">
                             <div class="card-header">Form Data</div>
                             <div class="card-body">
@@ -31,13 +28,13 @@
                                     @foreach($config['table'] as $idx => $row)
                                     @if($row['form'] == true)
                                     <div class="col-6 mb-5">
-                                        <label for="{{ $row['field'] }}" class="form-label">Filter {{ $row['label'] }}</label>
+                                        <label for="{{ $row['field'] }}" class="form-label">{{ $row['label'] }}</label>
                                         <input class="form-control" type="{{ $row['data_type'] }}" id="{{ $row['field'] }}" name="{{ $row['field'] }}" required>
                                     </div>
                                     @endif
                                     @endforeach
                                     <div class="col-12 mb-5">
-                                        <label for="message" class="form-label">Filter {{ $row['label'] }}</label>
+                                        <label for="message" class="form-label">Message</label>
                                         <textarea class="form-control" name="message" id="message" cols="30" rows="10" required></textarea>
                                     </div>
                                 </div>
@@ -50,9 +47,14 @@
                         </div>
                     </form>
                 </div>
-                <div id="inboxList" class="container">
+                <div id="inboxList">
                     <div class="card">
-                        <div class="card-header">List Data <button onclick="inboxAdd()" class="btn btn-outline-primary btn-sm">Add Pesan</button></div>
+                        <div class="card-header">
+                            <h2 class="text-left">List Data</h2>
+                            <div class="text-right">
+                                <button onclick="inboxAdd()" class="btn btn-outline-primary btn-sm">Add Pesan</button>
+                            </div>
+                        </div>
                         <div class="card-body">
                             <form id="inboxFormFilter" onsubmit="return getListData('#inboxList')">
                                 <div class="container">
@@ -112,7 +114,7 @@
 
         $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
         $( document ).ready(function() {
-            
+            $('#inboxFormData').hide()
         });
 
         inboxAdd = () => {
