@@ -155,7 +155,9 @@
             condition['page'] = $(elem+' [name=page]').val()
 
             console.log({endpoint,method,condition})
-            return false
+            httpRequest(target, method, param).then(function(res){
+                console.log(res)
+            })
         }
     </script>
 </body>
