@@ -36,7 +36,7 @@ class InboxController extends Controller
                 [ 'label' => 'Date', 'field' => 'created_at', 'order' => true, 'form' => false, 'search' => true, 'data_type' => 'date' ],
                 [ 'label' => 'Name', 'field' => 'name', 'order' => true, 'form' => true, 'search' => true, 'data_type' => 'text' ],
                 [ 'label' => 'Email', 'field' => 'email', 'order' => true, 'form' => true, 'search' => true, 'data_type' => 'text' ],
-                [ 'label' => 'Subject', 'field' => 'subject', 'order' => true, 'form' => true, 'search' => true, 'data_type' => 'text' ],
+                [ 'label' => 'Subject', 'field' => 'subjeck', 'order' => true, 'form' => true, 'search' => true, 'data_type' => 'text' ],
                 [ 'label' => 'Phone', 'field' => 'phone', 'order' => true, 'form' => true, 'search' => true, 'data_type' => 'text' ],
                 [ 'label' => 'Tools', 'field' => 'tools', 'order' => false, 'form' => false, 'search' => false ],
             ],
