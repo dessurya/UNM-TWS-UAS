@@ -120,6 +120,7 @@
         });
 
         inboxAdd = () => {
+            $('#inboxFormData [name=old_id]').val(null)
             $('#inboxFormData button[type=reset]').click()
             $('#inboxFormData').show()
         }
