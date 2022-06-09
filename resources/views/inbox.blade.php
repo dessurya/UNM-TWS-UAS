@@ -155,7 +155,7 @@
             condition['page'] = $(elem+' [name=page]').val()
 
             console.log({endpoint,method,condition})
-            httpRequest(target, method, param).then(function(res){
+            httpRequest(endpoint,method,condition).then(function(res){
                 console.log(res)
             })
         }
