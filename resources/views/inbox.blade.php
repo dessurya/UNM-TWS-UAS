@@ -128,7 +128,7 @@
             let input = {}
             input['name'] = $(elem+' [name=name]').val()
             input['email'] = $(elem+' [name=email]').val()
-            input['subject'] = $(elem+' [name=subject]').val()
+            input['subjeck'] = $(elem+' [name=subjeck]').val()
             input['phone'] = $(elem+' [name=phone]').val()
             input['message'] = $(elem+' [name=message]').val()
             input['old_id'] = $(elem+' [name=old_id]').val()
@@ -140,6 +140,7 @@
             httpRequest(endpoint,method,input).then(function(res){
                 alert(res.message)
                 inboxOpen(res.id)
+                getListData('#inboxList', true)
             })
             return false
         }
@@ -161,7 +162,7 @@
                 let elem = '#inboxFormData'
                 $(elem+' [name=name]').val(res.data.name)
                 $(elem+' [name=email]').val(res.data.email)
-                $(elem+' [name=subject]').val(res.data.subject)
+                $(elem+' [name=subjeck]').val(res.data.subjeck)
                 $(elem+' [name=phone]').val(res.data.phone)
                 $(elem+' [name=message]').val(res.data.message)
                 $(elem+' [name=old_id]').val(res.data.id)
@@ -175,7 +176,7 @@
                 condition['created_at'] = $(elem+' [name=filter_created_at]').val()
                 condition['name'] = $(elem+' [name=filter_name]').val()
                 condition['email'] = $(elem+' [name=filter_email]').val()
-                condition['subject'] = $(elem+' [name=filter_subject]').val()
+                condition['subjeck'] = $(elem+' [name=filter_subjeck]').val()
                 condition['phone'] = $(elem+' [name=filter_phone]').val()
                 condition['show'] = $(elem+' [name=show]').val()
                 condition['orderBy'] = $(elem+' [name=orderBy]').val()
