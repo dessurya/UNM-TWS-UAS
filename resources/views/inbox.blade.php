@@ -188,13 +188,14 @@
                         let row_table = '<tr>'
                         $.each(configPage.table, function(tIdx, tRow){
                             if (tRow.field == 'tools') {
-                                row_table .= '<div class="btn-group" role="group" aria-label="tools">'
-                                row_table .= '<button onclick="inboxOpen('+row.id+')" type="button" class="btn-sm btn btn-outline-danger">Left</button>'
-                                row_table .= '<button onclick="inboxDelete('+row.id+')" type="button" class="btn-sm btn btn-outline-primary">Middle</button>'
-                                row_table .= '</div>'
-                            }else{ row_table .= '<td>'+row[tRow.field]+'</td>' }
+                                row_table += '<div class="btn-group" role="group" aria-label="tools">'
+                                row_table += '<button onclick="inboxDelete('+row.id+')" type="button" class="btn-sm btn btn-outline-danger">Delete</button>'
+                                row_table += '<button onclick="inboxOpen('+row.id+')" type="button" class="btn-sm btn btn-outline-primary">Open</button>'
+                                row_table += '</div>'
+                            }else{ row_table += '<td>'+row[tRow.field]+'</td>' }
                         })
-                        row_table .= '</tr>'
+                        row_table += '</tr>'
+                        $(elem+' table tbody').append(row_table)
                     })
                 }
             })
