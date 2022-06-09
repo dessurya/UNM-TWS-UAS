@@ -131,9 +131,9 @@
             input['subjeck'] = $(elem+' [name=subjeck]').val()
             input['phone'] = $(elem+' [name=phone]').val()
             input['message'] = $(elem+' [name=message]').val()
-            input['old_id'] = $(elem+' [name=old_id]').val()
+            input['id'] = $(elem+' [name=old_id]').val()
             let type = 'store'
-            if (input['old_id'] != null && input['old_id'] != '') { type = 'update' }
+            if (input['id'] != null && input['id'] != '') { type = 'update' }
             let method = configPage['endpoint'][type]['method']
             let endpoint = configPage['endpoint'][type]['url']
 
