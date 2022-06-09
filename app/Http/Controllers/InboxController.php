@@ -49,7 +49,7 @@ class InboxController extends Controller
             ]
         ];
         
-        view('inbox', compact( 'config' ));
+        return view('inbox', compact( 'config' ));
     }
 
     public function list(Request $httpRequest)
