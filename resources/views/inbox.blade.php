@@ -67,7 +67,7 @@
                             </form>
                             <label>
                                 Show <select name="show" id="show" onchange="return getListData('#inboxList')"><option value="10">10</option><option value="25">25</option><option value="50">50</option></select> entries || Order By 
-                                <select name="orderBy" id="orderBy" onchange="return getListData('#inboxList')">@foreach($config['table'] as $idx => $row)@if($row['order'] == true)<option value="{{ $row['field'] }}">{{ $row['label'] }}</option>@endif@endforeach</select> : 
+                                <select name="orderBy" id="orderBy" onchange="return getListData('#inboxList')">@foreach($config['table'] as $idx => $row) @if($row['order'] == true)<option value="{{ $row['field'] }}">{{ $row['label'] }}</option>@endif @endforeach</select> : 
                                 <select name="orderByValue" id="orderByValue" onchange="return getListData('#inboxList')"><option value="DESC">DESC</option><option value="ASC">ASC</option></select>
                             </label>
                             <button onclick="inboxAdd()" class="btn btn-outline-primary btn-sm">Add Pesan</button>
