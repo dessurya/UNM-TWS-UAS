@@ -29,6 +29,29 @@ class InboxController extends Controller
         }else{ return true; }
     }
 
+    public function index()
+    {
+        $config = [
+            'table' => [
+                [ 'label' => 'Date', 'field' => 'created_at', 'order' => true, 'form' => false, 'search' => true, 'data_type' => 'date' ],
+                [ 'label' => 'Name', 'field' => 'name', 'order' => true, 'form' => true, 'search' => true, 'data_type' => 'text' ],
+                [ 'label' => 'Email', 'field' => 'email', 'order' => true, 'form' => true, 'search' => true, 'data_type' => 'text' ],
+                [ 'label' => 'Subject', 'field' => 'subject', 'order' => true, 'form' => true, 'search' => true, 'data_type' => 'text' ],
+                [ 'label' => 'Phone', 'field' => 'phone', 'order' => true, 'form' => true, 'search' => true, 'data_type' => 'text' ],
+                [ 'label' => 'Tools', 'field' => 'tools', 'order' => false, 'form' => false, 'search' => false ],
+            ],
+            'endpoint' => [
+                'list' => ['url'=>route('inbox-list'), 'method' => 'GET'],
+                'store' => ['url'=>route('inbox-store'), 'method' => 'POST'],
+                'update' => ['url'=>route('inbox-store'), 'method' => 'PUT'],
+                'open' => ['url'=>route('inbox-open'), 'method' => 'GET'],
+                'delete' => ['url'=>route('inbox-delete'), 'method' => 'DELETE'],
+            ]
+        ];
+        
+        view('inbox', compact( 'config' ));
+    }
+
     public function list(Request $httpRequest)
     {
         $condition = [];
@@ -37,19 +60,30 @@ class InboxController extends Controller
         if (isset($httpRequest->phone) AND !empty($httpRequest->phone)) { $condition['phone'] = '%'.$httpRequest->phone.'%'; }
         if (isset($httpRequest->subjeck) AND !empty($httpRequest->subjeck)) { $condition['subjeck'] = '%'.$httpRequest->subjeck.'%'; }
         if (isset($httpRequest->message) AND !empty($httpRequest->message)) { $condition['message'] = '%'.$httpRequest->message.'%'; }
+        if (isset($httpRequest->created_at) AND !empty($httpRequest->created_at)) { $condition['created_at'] = $httpRequest->created_at; }
+
+        $show = 10;
+        if (isset($httpRequest->show) AND !empty($httpRequest->show)) { $show = $httpRequest->show; }
+        $orderBy = 'created_at';
+        $orderByValue = 'DESC';
+        if (isset($httpRequest->orderBy) AND !empty($httpRequest->orderBy)) { $orderBy = $httpRequest->orderBy; }
+        if (isset($httpRequest->orderByValue) AND !empty($httpRequest->orderByValue)) { $orderByValue = $httpRequest->orderByValue; }
         
         if (count($condition) > 0) {
             $list = Inbox::select('*');
-            foreach ($condition as $key => $value) { $list->where($key,'LIKE',$value); }
-            $list = $list->get();
+            foreach ($condition as $key => $value) {
+                if ($key == 'created_at') {
+                    $list->whereDate($key,$value);
+                }else{ $list->where($key,'LIKE',$value); }
+            }
+            $list = $list->orderBy($orderBy,$orderByValue)->paginate($show);
         }else{
-            $list = Inbox::get();
+            $list = Inbox::orderBy($orderBy,$orderByValue)->paginate($show);
         }
 
         return response()->json([
             'res' => true,
-            'max_data' => count($list),
-            'data' => $list,
+            'datas' => $list
         ]);
     }
 

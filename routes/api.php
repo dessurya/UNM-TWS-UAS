@@ -14,11 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/inbox', 'InboxController@list');
-Route::post('/inbox/store', 'InboxController@create');
-Route::put('/inbox/store/{id}', 'InboxController@update');
-Route::get('/inbox/{id}', 'InboxController@find');
-Route::delete('/inbox/{id}', 'InboxController@delete');
+Route::get('/inbox', 'InboxController@list')->name('inbox-list');
+Route::post('/inbox/store', 'InboxController@create')->name('inbox-store');
+Route::put('/inbox/store/{id}', 'InboxController@update')->name('inbox-update');
+Route::get('/inbox/{id}', 'InboxController@find')->name('inbox-open');
+Route::delete('/inbox/{id}', 'InboxController@delete')->name('inbox-delete');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
