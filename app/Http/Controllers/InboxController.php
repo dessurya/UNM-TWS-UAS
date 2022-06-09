@@ -43,8 +43,8 @@ class InboxController extends Controller
             'endpoint' => [
                 'list' => ['url'=>route('inbox-list'), 'method' => 'GET'],
                 'store' => ['url'=>route('inbox-store'), 'method' => 'POST'],
-                'update' => ['url'=>route('inbox-update',['id'=>0]), 'method' => 'PUT'],
-                'open' => ['url'=>route('inbox-open',['id'=>0]), 'method' => 'GET'],
+                'update' => ['url'=>route('inbox-update',['id'=>1]), 'method' => 'PUT'],
+                'open' => ['url'=>route('inbox-open',['id'=>1]), 'method' => 'GET'],
                 'delete' => ['url'=>route('inbox-delete'), 'method' => 'DELETE'],
             ]
         ];
