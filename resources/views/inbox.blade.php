@@ -40,8 +40,8 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <input type="hidden" id="old_id" name="old_id" required>
-                                <button class="btn btn-outline-danger btn-sm" type="reset" onclick="$('#inboxFormData').hide()">Close</button>
+                                <input type="hidden" id="old_id" name="old_id">
+                                <button class="btn btn-outline-danger btn-sm" type="reset" onclick="$('#inboxFormData').hide();$('#inboxFormData [name=old_id]').val(null)">Close</button>
                                 <button class="btn btn-outline-success btn-sm" type="submit">Submit</button>
                             </div>
                         </div>
