@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="{{ url('vendors/bootstrap/bootstrap.min.css') }}">
     <title>PESAN</title>
     <style>
+        body{
+            padding: 10rem 0;
+        }
         #inboxForm{
             display:none;
         }
@@ -27,13 +30,13 @@
                                 <div class="row row-cols-3">
                                     @foreach($config['table'] as $idx => $row)
                                     @if($row['form'] == true)
-                                    <div class="col mb-5">
+                                    <div class="col-6 mb-5">
                                         <label for="{{ $row['field'] }}" class="form-label">Filter {{ $row['label'] }}</label>
                                         <input class="form-control" type="{{ $row['data_type'] }}" id="{{ $row['field'] }}" name="{{ $row['field'] }}" required>
                                     </div>
                                     @endif
                                     @endforeach
-                                    <div class="col mb-5">
+                                    <div class="col-12 mb-5">
                                         <label for="message" class="form-label">Filter {{ $row['label'] }}</label>
                                         <textarea class="form-control" name="message" id="message" cols="30" rows="10" required></textarea>
                                     </div>
@@ -49,14 +52,14 @@
                 </div>
                 <div id="inboxList" class="container">
                     <div class="card">
-                        <div class="card-header">List Data</div>
+                        <div class="card-header">List Data <button onclick="inboxAdd()" class="btn btn-outline-primary btn-sm">Add Pesan</button></div>
                         <div class="card-body">
                             <form id="inboxFormFilter" onsubmit="return getListData('#inboxList')">
                                 <div class="container">
                                     <div class="row row-cols-3">
                                         @foreach($config['table'] as $idx => $row)
                                         @if($row['search'] == true)
-                                        <div class="col mb-5">
+                                        <div class="col-6 mb-5">
                                             <label for="filter_{{ $row['field'] }}" class="form-label">Filter {{ $row['label'] }}</label>
                                             <input class="form-control" type="{{ $row['data_type'] }}" id="filter_{{ $row['field'] }}" name="filter_{{ $row['field'] }}" onchange="$('#inboxFormFilter').submit()">
                                         </div>
@@ -70,7 +73,6 @@
                                 <select name="orderBy" id="orderBy" onchange="return getListData('#inboxList')">@foreach($config['table'] as $idx => $row) @if($row['order'] == true)<option value="{{ $row['field'] }}">{{ $row['label'] }}</option>@endif @endforeach</select> : 
                                 <select name="orderByValue" id="orderByValue" onchange="return getListData('#inboxList')"><option value="DESC">DESC</option><option value="ASC">ASC</option></select>
                             </label>
-                            <button onclick="inboxAdd()" class="btn btn-outline-primary btn-sm">Add Pesan</button>
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
@@ -132,6 +134,7 @@
             let endpoint = configPage['endpoint'][type]['url']
             if (type == 'update') { endpoint = endpoint+input['old_id'] }
             console.log({endpoint,method,input})
+            return false
         }
 
         getListData = (elem) => {
@@ -148,6 +151,7 @@
             condition['orderByValue'] = $(elem+' [name=orderByValue]').val()
 
             console.log({endpoint,method,condition})
+            return false
         }
     </script>
 </body>
