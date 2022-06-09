@@ -129,8 +129,8 @@ class InboxController extends Controller
         return response()->json([
             'res' => true,
             'message' => 'success',
-            'data' => Inbox::find($id),
-            'id' => $id,
+            'data' => Inbox::find($httpRequest->id),
+            'id' => $httpRequest->id,
         ]);
     }
 
