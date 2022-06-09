@@ -83,6 +83,7 @@ class InboxController extends Controller
 
         return response()->json([
             'res' => true,
+            'condition' => $httpRequest->all(),
             'datas' => $list
         ]);
     }

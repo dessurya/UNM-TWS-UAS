@@ -73,7 +73,8 @@
                             <label>
                                 Show <select name="show" id="show" onchange="return getListData('#inboxList')"><option value="10">10</option><option value="25">25</option><option value="50">50</option></select> entries || Order By 
                                 <select name="orderBy" id="orderBy" onchange="return getListData('#inboxList')">@foreach($config['table'] as $idx => $row) @if($row['order'] == true)<option value="{{ $row['field'] }}">{{ $row['label'] }}</option>@endif @endforeach</select> : 
-                                <select name="orderByValue" id="orderByValue" onchange="return getListData('#inboxList')"><option value="DESC">DESC</option><option value="ASC">ASC</option></select>
+                                <select name="orderByValue" id="orderByValue" onchange="return getListData('#inboxList')"><option value="DESC">DESC</option><option value="ASC">ASC</option></select> || Halaman : 
+                                <input type="number" min="1" max="1" id="page" name="page" value="1"> dari <strong></strong>
                             </label>
                             <table class="table table-striped table-hover">
                                 <thead>
@@ -151,6 +152,7 @@
             condition['show'] = $(elem+' [name=show]').val()
             condition['orderBy'] = $(elem+' [name=orderBy]').val()
             condition['orderByValue'] = $(elem+' [name=orderByValue]').val()
+            condition['page'] = $(elem+' [name=page]').val()
 
             console.log({endpoint,method,condition})
             return false
